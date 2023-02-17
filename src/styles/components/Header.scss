@@ -1,8 +1,10 @@
 @import '../utils/variables.scss';
+.nav-link{
+    text-decoration: none;
+}
 
 .header{
     background-color: $blue;
     display: flex;
-    justify-content: center;
     align-items: center;
 }

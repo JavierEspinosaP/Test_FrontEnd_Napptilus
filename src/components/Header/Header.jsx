@@ -1,9 +1,10 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
     <div className="header">
-      Header  
+      <Link className="nav-link" to='/'><h2>Mobile Store</h2></Link>
     </div>
   )
 }

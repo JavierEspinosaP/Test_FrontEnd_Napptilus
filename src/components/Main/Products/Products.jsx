@@ -2,7 +2,8 @@ import React, {useContext, useState} from 'react'
 import { productsContext } from '../../../context/productsContext'
 import Product from './Product/Product'
 import Pagination from '@mui/material/Pagination';
-import usePagination from "../../../hooks/usePagination"
+import usePagination from "../../../hooks/usePagination";
+
 
 function Products() {
 
@@ -21,6 +22,7 @@ function Products() {
     <div className="Products">
       <section className="cardsContainer">
         {_DATA.currentData().map((p, i) => <Product product={p} key={i} />)}
+        
       </section>
 
       <section className="pagination">

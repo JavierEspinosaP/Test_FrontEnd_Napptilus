@@ -15,9 +15,7 @@ function App() {
     async function fetchData() {
       const resProducts = await axios.get("https://itx-frontend-test.onrender.com/api/product")
       const products = await resProducts.data
-
       setProductsData(products)
-      console.log(products);
     }
     fetchData()
   }, [])

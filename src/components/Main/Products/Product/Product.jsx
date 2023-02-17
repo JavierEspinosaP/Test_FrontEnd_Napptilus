@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -8,15 +10,15 @@ import Button from '@mui/material/Button';
 
 function Product(props) {
 
+
   const product = props.product
-  console.log(product);
   
   return (
     <div>
-      <Card sx={{ maxWidth: 260, minWidth: 260, margin: 1, minHeight: 300 }}>
+      <Card sx={{ maxWidth: 250, minWidth: 250, margin: 1, maxHeight: 400 }}>
         <CardMedia
           component="img"
-          style={{ height: "75%", width: "75%",minWidth:"180px", maxWidth: "180px" }}
+          style={{minWidth:"130px", maxWidth: "130px" }}
           image={product.imgUrl}
         />
         <CardContent>
@@ -30,7 +32,9 @@ function Product(props) {
             - Precio:{product.price}
           </Typography>
         </CardContent>
+        <Button><Link className="detailsLink" to={`/product/${product.id}`}>Ver detalles</Link></Button>
       </Card>
+
     </div>
   )
 }
