@@ -31,15 +31,15 @@ function ProductDetails() {
     // const storageIndex = detailsData.internalMemory.indexOf(selectedStorage);
   
     const payload = {
-      "id": "0001",
+      "id": detailsData.id,
       "colorCode": 1,
       "storageCode": 1
     };
     console.log(payload)
   
     try {
-      const res = await axios.post('https://itx-frontend-test.onrender.com/api/cart', payload);
-      const data = res.data;
+      const res = await axios.post('https://itx-frontend-test.onrender.com/api/cart', payload, { withCredentials: true });
+      const data = await res.data;
       console.log(res);
       setCountProducts(data.count);
     } catch (error) {
