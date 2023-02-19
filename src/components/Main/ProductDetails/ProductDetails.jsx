@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Link } from "react-router-dom";
+import {countContext} from '../../../context/countContext'
 
 function ProductDetails() {
 
   let { id } = useParams();
 
   const [detailsData, setDetailsData] = useState([]);
+
+  const { countProducts, setCountProducts } = useContext(countContext);
 
   useEffect(() => {
     async function fetchData() {
@@ -16,14 +19,36 @@ function ProductDetails() {
       setDetailsData(data)
     }
     fetchData()
+
+    
   }, [])
 
-  const [selectedStorage, setSelectedStorage] = useState('');
-  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedStorage, setSelectedStorage] = useState(undefined);
+  const [selectedColor, setSelectedColor] = useState(undefined);
 
-  const handleAddToCart = () => {
-    // Agregar el producto a la cesta utilizando el API
+  const handleAddToCart = async () => {
+    // const colorIndex = detailsData.colors.indexOf(selectedColor);
+    // const storageIndex = detailsData.internalMemory.indexOf(selectedStorage);
+  
+    const payload = {
+      "id": "0001",
+      "colorCode": 1,
+      "storageCode": 1
+    };
+    console.log(payload)
+  
+    try {
+      const res = await axios.post('https://itx-frontend-test.onrender.com/api/cart', payload);
+      const data = res.data;
+      console.log(res);
+      setCountProducts(data.count);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  
+  
+  
 
 
   return (
