@@ -1,8 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 import { productsContext } from '../../../context/productsContext'
 import Product from './Product/Product'
-import Pagination from '@mui/material/Pagination';
-import usePagination from "../../../hooks/usePagination";
 import { TextField } from '@mui/material';
 import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,14 +10,9 @@ import axios from 'axios'
 
 function Products() {
   const _products = useSelector(state => state._products);
-  // const { productsData, setProductsData } = useContext(productsContext);
-  const [page, setPage] = useState(1);
-  const PER_PAGE = 8;
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const data = searchText.length > 0 ? filteredData : _products;
-  const count = Math.ceil(data.length / PER_PAGE);
-  const _DATA = usePagination(data, PER_PAGE);
   const [opacity, setOpacity] = useState(0);
   const dispatch = useDispatch();
 
@@ -71,38 +64,30 @@ function Products() {
           p.model.toLowerCase().toString().includes(searchText.toLowerCase())
       );
         setFilteredData(result);
-        setPage(1);
         setOpacity(1);
-
 
     }, 500);
     searchHandler();
-    _DATA.jump(1);
 
   }, [searchText, _products]);
-
-  const handleChange = (e, p) => {
-    setPage(p);
-    _DATA.jump(p);
-  };
 
   useEffect(() => {
     setOpacity(1);
   }, []);
 
-  if (_products.length!==0) {
   return (
     <div className="Products">
       <section className="searchBar">
         <TextField
-          label="Buscar producto por marca o modelo"
+          label="Buscar producto"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
       </section>
 
       <section className="cardsContainer" style={{ transition: "opacity 2s ease", opacity: opacity }}>
-        {_DATA.currentData().map((p, i) => (
+        {data.map((p, i) => (
+          
           <Product
             product={p}
             key={i}
@@ -110,27 +95,9 @@ function Products() {
           />
         ))}
       </section>
-
-      <section style={{ transition: "opacity 2s ease", opacity: opacity }} className="pagination">
-        <Pagination
-          count={count}
-          size="large"
-          color="primary"
-          page={page}
-          variant="outlined"
-          onChange={handleChange}
-          className="muiPag"
-        />
-      </section>
     </div>
   )    
   }
-  else{
-    return (
-      <span className="loader"></span>
-    )
-  }
 
-}
 
 export default Products
