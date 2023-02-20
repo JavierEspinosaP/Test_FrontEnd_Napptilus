@@ -1,3 +1,6 @@
+@import '../utils/variables.scss';
+
+
 .pdp {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -15,15 +18,15 @@
         }
     }
 
-    &__container{
-order: 2
+.container {
+        order: 2
     }
 
-    &__details {
+.details {
         display: flex;
         flex-direction: column;
         justify-content: center;
-
+        
         &__title {
             font-size: 2rem;
             margin-bottom: 1rem;
@@ -36,7 +39,11 @@ order: 2
 
         &__attributes {
             display: flex;
+            flex-direction: column;
             flex-wrap: wrap;
+
+            .attribute{
+                display:flex;
 
             &-label {
                 font-weight: bold;
@@ -49,17 +56,20 @@ order: 2
 
             &>div {
                 margin-bottom: 1rem;
+            }                
             }
-        }
+
+}
+        
     }
 
-    &__actions {
+.actions {
         display: flex;
         flex-direction: column;
         align-items: start;
         margin-top: 2rem;
 
-        &__selector {
+        .selector {
             display: flex;
             margin-bottom: 1rem;
 
@@ -72,18 +82,18 @@ order: 2
                 padding: 0.5rem;
             }
         }
+    }
 
-        &__add-to-cart {
-            padding: 1rem 2rem;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 0.25rem;
-            cursor: pointer;
+    &__add-to-cart {
+        padding: 1rem 2rem;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
 
-            &:hover {
-                background-color: #0069d9;
-            }
+        &:hover {
+            background-color: #0069d9;
         }
     }
 }
@@ -97,7 +107,8 @@ order: 2
         &__image {
             order: 1;
         }
-        &__container{
+
+        &__container {
             order: 2
         }
     }
