@@ -38,7 +38,7 @@ function ProductDetails() {
     console.log(payload)
   
     try {
-      const res = await axios.post('https://itx-frontend-test.onrender.com/api/cart', payload, { withCredentials: true });
+      const res = await axios.post('https://itx-frontend-test.onrender.com/api/cart', payload);
       const data = await res.data;
       console.log(res);
       setCountProducts(data.count);
