@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Header from './components/Header/Header'
 import Main from './components/Main/Main'
 import { productsContext } from './context/productsContext'
-import {countContext} from './context/countContext'
+import { countContext } from './context/countContext'
 import './styles/styles.scss';
 import axios from 'axios'
 
@@ -43,6 +43,11 @@ function App() {
       // Si no hay datos en el almacenamiento local o han pasado más de una hora, hacer la solicitud de los datos
       getData()
     }
+
+    // Obtener la suma de las propiedades "quantity" de los objetos en la clave 'cart' del almacenamiento local
+    const cart = JSON.parse(localStorage.getItem('cart'))
+    const count = cart ? Object.values(cart).reduce((acc, item) => acc + item.quantity, 0) : 0
+    setCountProducts(count)
   }, [])
 
 
@@ -58,10 +63,10 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <countContext.Provider value={countObj}>
-        <productsContext.Provider value={productsObj}>
-          <Header />
-          <Main />
-        </productsContext.Provider>
+          <productsContext.Provider value={productsObj}>
+            <Header />
+            <Main />
+          </productsContext.Provider>
         </countContext.Provider>
       </BrowserRouter>
     </div>

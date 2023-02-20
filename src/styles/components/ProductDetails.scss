@@ -1,11 +1,17 @@
 @import '../utils/variables.scss';
 
+.detailsView {
+    height: 100vh;
+    background-color: $green;
+}
 
 .pdp {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     grid-gap: 2rem;
     align-items: center;
+
+    
 
     &__image {
         order: 1;
@@ -18,15 +24,15 @@
         }
     }
 
-.container {
+    .container {
         order: 2
     }
 
-.details {
+    .details {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        
+
         &__title {
             font-size: 2rem;
             margin-bottom: 1rem;
@@ -42,28 +48,28 @@
             flex-direction: column;
             flex-wrap: wrap;
 
-            .attribute{
-                display:flex;
+            .attribute {
+                display: flex;
 
-            &-label {
-                font-weight: bold;
-                width: 180px;
+                &-label {
+                    font-weight: bold;
+                    width: 180px;
+                }
+
+                &-value {
+                    width: calc(100% - 180px);
+                }
+
+                &>div {
+                    margin-bottom: 1rem;
+                }
             }
 
-            &-value {
-                width: calc(100% - 180px);
-            }
+        }
 
-            &>div {
-                margin-bottom: 1rem;
-            }                
-            }
-
-}
-        
     }
 
-.actions {
+    .actions {
         display: flex;
         flex-direction: column;
         align-items: start;

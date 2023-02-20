@@ -6,6 +6,8 @@ import {countContext} from '../../context/countContext'
 function Header() {
 
   const { countProducts, setCountProducts } = useContext(countContext);
+  const cart = JSON.parse(localStorage.getItem('cart'));
+  
 
   return (
     <div className="header">

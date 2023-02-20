@@ -26,6 +26,8 @@ function ProductDetails() {
   const [selectedStorage, setSelectedStorage] = useState(undefined);
   const [selectedColor, setSelectedColor] = useState(undefined);
 
+  
+
   const handleAddToCart = async () => {
     // const colorIndex = detailsData.colors.indexOf(selectedColor);
     // const storageIndex = detailsData.internalMemory.indexOf(selectedStorage);
@@ -35,16 +37,37 @@ function ProductDetails() {
       "colorCode": 1,
       "storageCode": 1
     };
-    console.log(payload)
+  
+    const cartItems = localStorage.getItem('cart');
+    let parsedCart = {};
+    if (cartItems) {
+      parsedCart = JSON.parse(cartItems);
+    }
+    const item = parsedCart[payload.id];
+    if (item) {
+      item.quantity += 1;
+    } else {
+      parsedCart[payload.id] = {
+        ...payload,
+        quantity: 1
+      };
+    }
+    localStorage.setItem('cart', JSON.stringify(parsedCart));
+    const itemCount = Object.values(parsedCart).reduce((total, item) => total + item.quantity, 0);
+    setCountProducts(itemCount);
   
     try {
       const res = await axios.post('https://itx-frontend-test.onrender.com/api/cart', payload);
       const data = await res.data;
-      console.log(res);
-      setCountProducts(data.count);
     } catch (error) {
       console.log(error);
     }
+  
+    // Reset cart after 1 hour
+    setTimeout(() => {
+      localStorage.removeItem('cart');
+      setCountProducts(0);
+    }, 60 * 60 * 1000);
   };
   
   
@@ -53,7 +76,7 @@ function ProductDetails() {
 
   return (
 
-    <div>
+    <div className="detailsView">
 
       <div className="pdp">
         <div className="pdp__image">
