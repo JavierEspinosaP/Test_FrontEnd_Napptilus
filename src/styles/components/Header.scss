@@ -1,0 +1,23 @@
+@import '../utils/variables.scss';
+.nav-link{
+    text-decoration: none;
+}
+
+.header{
+    background-color: $blue;
+    display: flex;
+    align-items: center;
+}
+
+.cartImg {
+    width: 30px;
+    position: absolute;
+    right: 80px;
+}
+
+.cartCount{
+    position: absolute;
+    right: 120px;
+    font-size: 22px;
+}
+

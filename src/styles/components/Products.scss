@@ -1,0 +1,63 @@
+@import '../utils/variables.scss';
+
+.Products{
+    height: 80vh;
+    background-color: $green;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 2rem;
+    transition: transform 0.5s, filter 0.5s ease-in-out;
+  }
+
+.cardsContainer {
+  background-color: $green;
+    margin-bottom: 2rem;
+    padding-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1rem;
+    justify-items: center;
+  }
+
+  .productContainer{
+    margin-top: 2.1rem;
+  }
+
+  .detailsLink{
+    text-decoration: none;
+  }
+
+  .searchBar{
+      position: absolute;
+      right: 106px;
+      top: 96px
+  }
+  
+
+  @media screen and (max-width: 1168px) {
+    .cardsContainer {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+    }
+
+    .Products{
+        height: 180vh;
+    }
+    
+
+  }
+  
+  @media screen and (max-width: 640px) {
+    .cardsContainer {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(8, 1fr);
+    }
+
+    .Products{
+        height: 330vh;
+    }
+  }
