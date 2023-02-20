@@ -9,6 +9,7 @@ import axios from 'axios'
 
 
 
+
 function App() {
 
   const [productsData, setProductsData] = useState([])
@@ -20,7 +21,10 @@ function App() {
     async function getData() {
       const res = await axios.get("https://itx-frontend-test.onrender.com/api/product")
       const products = await res.data
+
       setProductsData(products)
+
+
       // Guardar los datos en el almacenamiento local
       localStorage.setItem('products', JSON.stringify(products))
       // Guardar la hora actual en el almacenamiento local
