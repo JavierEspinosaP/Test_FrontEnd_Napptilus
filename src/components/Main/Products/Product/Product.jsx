@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Card from '@mui/material/Card';
@@ -11,10 +11,15 @@ import Button from '@mui/material/Button';
 function Product(props) {
 
 
+  const [opacity, setOpacity] = useState(0);
   const product = props.product
+
+  useEffect(() => {
+    setOpacity(1);
+  }, []);
   
   return (
-    <div>
+    <div style={{ transition: "opacity 2s ease", opacity: opacity }}>
       <Card sx={{ maxWidth: 250, minWidth: 250, margin: 1, maxHeight: 400 }}>
         <CardMedia
           component="img"

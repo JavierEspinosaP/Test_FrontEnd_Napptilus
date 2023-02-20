@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Header from './components/Header/Header'
 import Main from './components/Main/Main'
 import { productsContext } from './context/productsContext'
+import {countContext} from './context/countContext'
 import './styles/styles.scss';
 import axios from 'axios'
 
@@ -11,7 +12,7 @@ import axios from 'axios'
 function App() {
 
   const [productsData, setProductsData] = useState([])
-
+  const [countProducts, setCountProducts] = useState(0)
 
 
   useEffect(() => {
@@ -45,13 +46,19 @@ function App() {
     productsData, setProductsData
   }
 
+  const countObj = {
+    countProducts, setCountProducts
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
+        <countContext.Provider value={countObj}>
         <productsContext.Provider value={productsObj}>
           <Header />
           <Main />
         </productsContext.Provider>
+        </countContext.Provider>
       </BrowserRouter>
     </div>
   );
