@@ -1,5 +1,8 @@
+@import '../utils/variables.scss';
+
 .Products{
     height: 80vh;
+    background-color: $green;
 }
 
 .pagination {
@@ -10,8 +13,9 @@
   }
 
 .cardsContainer {
-    margin-top: 4em;
+  background-color: $green;
     margin-bottom: 2rem;
+    padding-top: 60px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, 1fr);
@@ -19,10 +23,19 @@
     justify-items: center;
   }
 
+  .productContainer{
+    margin-top: 2.1rem;
+  }
+
   .detailsLink{
     text-decoration: none;
   }
 
+  .searchBar{
+      position: absolute;
+      right: 106px;
+      top: 96px
+  }
   
 
   @media screen and (max-width: 1168px) {
