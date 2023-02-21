@@ -4,12 +4,14 @@ import Product from './Product/Product'
 import { TextField } from '@mui/material';
 import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
+import { productNameContext } from '../../../context/productNameContext';
 import axios from 'axios'
 
 
 
 function Products() {
   const _products = useSelector(state => state._products);
+  const {productName, setProductName} = useContext(productNameContext);
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const data = searchText.length > 0 ? filteredData : _products;
@@ -52,7 +54,10 @@ function Products() {
       // Si no hay datos en el almacenamiento local o han pasado más de una hora, hacer la solicitud de los datos
       getData()
     }
-
+    
+    // setTimeout(() => {
+    //  setProductName('') 
+    // }, 1000);
 
   }, [])
 
