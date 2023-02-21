@@ -2,15 +2,16 @@ import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Link } from "react-router-dom";
-import {countContext} from '../../../context/countContext'
-import {productNameContext} from '../../../context/productNameContext'
+import { countContext } from '../../../context/countContext'
+import { productNameContext } from '../../../context/productNameContext'
 
 function ProductDetails() {
 
   let { id } = useParams();
 
   const [detailsData, setDetailsData] = useState([]);
-
+  const [selectedStorage, setSelectedStorage] = useState(1);
+  const [selectedColor, setSelectedColor] = useState(1);
   const { countProducts, setCountProducts } = useContext(countContext);
   const { productName, setProductName } = useContext(productNameContext);
 
@@ -19,29 +20,41 @@ function ProductDetails() {
       const resDetails = await axios.get(`https://itx-frontend-test.onrender.com/api/product/${id}`)
       const data = await resDetails.data
       setDetailsData(data)
-      console.log(data);
       setProductName("Detalles de " + data.brand + ' ' + data.model)
     }
     fetchData()
 
     
+
+
   }, [])
 
-  const [selectedStorage, setSelectedStorage] = useState(undefined);
-  const [selectedColor, setSelectedColor] = useState(undefined);
-
-  
-
   const handleAddToCart = async () => {
-    // const colorIndex = detailsData.colors.indexOf(selectedColor);
-    // const storageIndex = detailsData.internalMemory.indexOf(selectedStorage);
-  
+
+    let colorIndex = detailsData.colors.indexOf(selectedColor)
+    let storageIndex = detailsData.internalMemory.indexOf(selectedStorage) 
+
+    if (detailsData.colors.indexOf(selectedColor) == -1) {
+      colorIndex = 1
+    }
+    else{
+      colorIndex = detailsData.colors.indexOf(selectedColor) + 1
+    }
+
+    if (detailsData.internalMemory.indexOf(selectedStorage) == -1) {
+      storageIndex = 1
+    }
+    else{
+      storageIndex = detailsData.internalMemory.indexOf(selectedStorage) + 1
+    }
+
     const payload = {
       "id": detailsData.id,
-      "colorCode": 1,
-      "storageCode": 1
+      "colorCode": colorIndex,
+      "storageCode": storageIndex
     };
-  
+    console.log(payload);
+
     const cartItems = localStorage.getItem('cart');
     let parsedCart = {};
     if (cartItems) {
@@ -59,24 +72,25 @@ function ProductDetails() {
     localStorage.setItem('cart', JSON.stringify(parsedCart));
     const itemCount = Object.values(parsedCart).reduce((total, item) => total + item.quantity, 0);
     setCountProducts(itemCount);
-  
+
     try {
       const res = await axios.post('https://itx-frontend-test.onrender.com/api/cart', payload);
       const data = await res.data;
+      console.log(data);
 
     } catch (error) {
       console.log(error);
     }
-  
+
     // Reset cart after 1 hour
     setTimeout(() => {
       localStorage.removeItem('cart');
       setCountProducts(0);
     }, 60 * 60 * 1000);
   };
-  
-  
-  
+
+
+
 
 
   return (
