@@ -72,7 +72,7 @@ function Header() {
       <h4 ref={h4BreadCrumb} className={`${showBreadCrumb ? "animate" : "breadcrumb-detail"}`}>
         {productName}
       </h4>
-      <img className="cartImg" src={cartImg} alt="cart" />
+      <Link to='/cart'><img className="cartImg" src={cartImg} alt="cart" /></Link>
       <p className="cartCount">{countProducts}</p>
     </div>
   )
