@@ -54,9 +54,10 @@ function Products() {
       // Si no hay datos en el almacenamiento local o han pasado más de una hora, hacer la solicitud de los datos
       getData()
     }
-
-    setProductName('')
-
+    
+    // setTimeout(() => {
+    //  setProductName('') 
+    // }, 1000);
 
   }, [])
 
