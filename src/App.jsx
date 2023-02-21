@@ -4,6 +4,7 @@ import Header from './components/Header/Header'
 import Main from './components/Main/Main'
 import { productsContext } from './context/productsContext'
 import { countContext } from './context/countContext'
+import { productNameContext } from './context/productNameContext'
 import './styles/styles.scss';
 import axios from 'axios'
 
@@ -14,6 +15,7 @@ function App() {
 
   const [productsData, setProductsData] = useState([])
   const [countProducts, setCountProducts] = useState(0)
+  const [productName, setProductName] = useState('')
 
 
   useEffect(() => {
@@ -59,15 +61,22 @@ function App() {
     countProducts, setCountProducts
   }
 
+  const productNameObj = {
+    productName, setProductName
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
         <countContext.Provider value={countObj}>
           <productsContext.Provider value={productsObj}>
-            <Header />
-            <Main />
+            <productNameContext.Provider value={productNameObj}>
+              <Header />
+              <Main />
+            </productNameContext.Provider>
           </productsContext.Provider>
         </countContext.Provider>
+
       </BrowserRouter>
     </div>
   );
