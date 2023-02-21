@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Link } from "react-router-dom";
 import {countContext} from '../../../context/countContext'
+import {productNameContext} from '../../../context/productNameContext'
 
 function ProductDetails() {
 
@@ -11,12 +12,15 @@ function ProductDetails() {
   const [detailsData, setDetailsData] = useState([]);
 
   const { countProducts, setCountProducts } = useContext(countContext);
+  const { productName, setProductName } = useContext(productNameContext);
 
   useEffect(() => {
     async function fetchData() {
       const resDetails = await axios.get(`https://itx-frontend-test.onrender.com/api/product/${id}`)
       const data = await resDetails.data
       setDetailsData(data)
+      console.log(data);
+      setProductName("Detalles de " + data.brand + ' ' + data.model)
     }
     fetchData()
 
@@ -59,6 +63,7 @@ function ProductDetails() {
     try {
       const res = await axios.post('https://itx-frontend-test.onrender.com/api/cart', payload);
       const data = await res.data;
+
     } catch (error) {
       console.log(error);
     }
