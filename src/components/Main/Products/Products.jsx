@@ -11,7 +11,7 @@ import axios from 'axios'
 
 function Products() {
   const _products = useSelector(state => state._products);
-  const {productName, setProductName} = useContext(productNameContext);
+  const { productName, setProductName } = useContext(productNameContext);
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const data = searchText.length > 0 ? filteredData : _products;
@@ -54,10 +54,17 @@ function Products() {
       // Si no hay datos en el almacenamiento local o han pasado más de una hora, hacer la solicitud de los datos
       getData()
     }
-    
-    // setTimeout(() => {
-    //  setProductName('') 
-    // }, 1000);
+
+    // Comprobar si ha pasado más de una hora desde la última vez que se añadió un producto
+    const lastAdded = localStorage.getItem("lastAdded");
+    if (lastAdded) {
+      const now = new Date().getTime();
+      const elapsed = now - parseInt(lastAdded, 10);
+      if (elapsed > 1000 * 60 * 60) {
+        localStorage.removeItem("state");
+        dispatch({ type: "REMOVE_ALL_PRODUCTS" });
+      }
+    }
 
   }, [])
 
@@ -68,8 +75,8 @@ function Products() {
           p.brand.toLowerCase().toString().includes(searchText.toLowerCase()) ||
           p.model.toLowerCase().toString().includes(searchText.toLowerCase())
       );
-        setFilteredData(result);
-        setOpacity(1);
+      setFilteredData(result);
+      setOpacity(1);
 
     }, 500);
     searchHandler();
@@ -92,7 +99,7 @@ function Products() {
 
       <section className="cardsContainer" style={{ transition: "opacity 2s ease", opacity: opacity }}>
         {data.map((p, i) => (
-          
+
           <Product
             product={p}
             key={i}
@@ -101,8 +108,8 @@ function Products() {
         ))}
       </section>
     </div>
-  )    
-  }
+  )
+}
 
 
 export default Products

@@ -28,7 +28,16 @@ function ProductDetails() {
     }
     fetchData()
 
-
+    // Comprobar si ha pasado más de una hora desde la última vez que se añadió un producto
+    const lastAdded = localStorage.getItem("lastAdded");
+    if (lastAdded) {
+      const now = new Date().getTime();
+      const elapsed = now - parseInt(lastAdded, 10);
+      if (elapsed > 1000 * 60 * 60) {
+        localStorage.removeItem("state");
+        dispatch({ type: "REMOVE_ALL_PRODUCTS" });
+      }
+    }
 
 
   }, [])
@@ -59,7 +68,7 @@ function ProductDetails() {
     };
     console.log(payload);
 
-    const cartItems = localStorage.getItem('cart');
+    const cartItems = localStorage.getItem('serverCart');
     let parsedCart = {};
     if (cartItems) {
       parsedCart = JSON.parse(cartItems);
@@ -74,7 +83,7 @@ function ProductDetails() {
       };
 
     }
-    localStorage.setItem('cart', JSON.stringify(parsedCart));
+    localStorage.setItem('serverCart', JSON.stringify(parsedCart));
     const itemCount = Object.values(parsedCart).reduce((total, item) => total + item.quantity, 0);
     setCountProducts(itemCount);
 
@@ -88,6 +97,19 @@ function ProductDetails() {
     };
     dispatch({ type: "ADD_CART", payload: cartItem });
 
+    // Guardar la hora actual en el local storage
+    const now = new Date().getTime();
+    localStorage.setItem("lastAdded", now);
+
+    // Resetear el carrito después de una hora
+    setTimeout(() => {
+      localStorage.removeItem("state");
+      dispatch({ type: "REMOVE_ALL_PRODUCTS" });
+    }, 60 * 60 * 1000);
+
+
+
+
     try {
       const res = await axios.post('https://itx-frontend-test.onrender.com/api/cart', payload);
       const data = await res.data;
@@ -97,9 +119,12 @@ function ProductDetails() {
       console.log(error);
     }
 
+
+
+
     // Reset cart after 1 hour
     setTimeout(() => {
-      localStorage.removeItem('cart');
+      localStorage.removeItem('serverCart');
       setCountProducts(0);
     }, 60 * 60 * 1000);
   };

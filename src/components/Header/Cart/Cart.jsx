@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const items = useSelector(state=>state.Carts);
-  const totalCart = useSelector(state=>state.numberCart);
+  const items = useSelector(state => state.Carts);
+  const totalCart = useSelector(state => state.numberCart);
 
   console.log(items);
-    
+
+  useEffect(() => {
+    // Comprobar si ha pasado más de una hora desde la última vez que se añadió un producto
+    const lastAdded = localStorage.getItem("lastAdded");
+    if (lastAdded) {
+      const now = new Date().getTime();
+      const elapsed = now - parseInt(lastAdded, 10);
+      if (elapsed > 1000 * 60 * 60) {
+        localStorage.removeItem("state");
+        dispatch({ type: "REMOVE_ALL_PRODUCTS" });
+      }
+    }
+  }, [])
+
+
   let totalCost = 0;
   items.forEach(item => {
-      totalCost += item.quantity * item.price;
+    totalCost += item.quantity * item.price;
   });
 
   const handleDeleteItem = (index) => {
@@ -50,8 +64,8 @@ const Cart = () => {
         {items.map((item, index) => (
           <tr key={index}>
             <td>
-              <button 
-                style={{ cursor: "pointer" }} 
+              <button
+                style={{ cursor: "pointer" }}
                 onClick={() => handleDeleteItem(index)}
               >
                 X
@@ -59,23 +73,23 @@ const Cart = () => {
             </td>
             <td>{item.brand} {item.model}</td>
             <td>
-              <img 
-                src={item.imgUrl} 
-                alt={item.title} 
-                style={{ width: '100px', height: '80px' }} 
+              <img
+                src={item.imgUrl}
+                alt={item.title}
+                style={{ width: '100px', height: '80px' }}
               />
             </td>
             <td>{item.price} €</td>
             <td>
-              <button 
-                style={{ margin: '2px', cursor: "pointer" }} 
+              <button
+                style={{ margin: '2px', cursor: "pointer" }}
                 onClick={() => handleDecreaseQuantity(index)}
               >
                 -
               </button>
               <span>{item.quantity}</span>
-              <button 
-                style={{ margin: '2px', cursor: "pointer" }} 
+              <button
+                style={{ margin: '2px', cursor: "pointer" }}
                 onClick={() => handleIncreaseQuantity(index)}
               >
                 +

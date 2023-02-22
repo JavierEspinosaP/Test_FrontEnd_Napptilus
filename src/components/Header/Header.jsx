@@ -7,6 +7,7 @@ import phone from '../../assets/phone.png';
 import arrow from '../../assets/arrow.png';
 import { useLocation } from "react-router-dom";
 import line from '../../assets/line.png';
+import { useSelector } from 'react-redux';
 
 function Header() {
 
@@ -20,6 +21,7 @@ function Header() {
   const [moveUnderline, setMoveUnderline] = useState(false);
 
   const location = useLocation()
+  const numberCart = useSelector(state => state.numberCart);
 
   useEffect(() => {
     console.log(location.pathname);
@@ -73,7 +75,15 @@ function Header() {
         {productName}
       </h4>
       <Link to='/cart'><img className="cartImg" src={cartImg} alt="cart" /></Link>
-      <p className="cartCount">{countProducts}</p>
+      {numberCart === 0 ?
+        <p className="cartCount">Ningún producto añadido a la cesta</p> :
+        <p className="cartCount">
+          {numberCart === 1 ?
+            `${numberCart} Producto añadido a la cesta` :
+            `${numberCart} Productos añadidos a la cesta`
+          }
+        </p>
+      }
     </div>
   )
 }

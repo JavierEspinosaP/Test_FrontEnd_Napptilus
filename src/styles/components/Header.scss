@@ -28,7 +28,8 @@
 .cartCount {
     position: absolute;
     right: 120px;
-    font-size: 22px;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 .homeLink {
@@ -36,7 +37,8 @@
     text-decoration: none;
     position: absolute;
     left: 124px;
-    top: 1px
+    top: 1px;
+    z-index: 1;
 }
 
 .breadcrumb-detail {
@@ -79,6 +81,7 @@
     width: 52px;
     transform: translateX(0);
     transition: transform 1s ease, width 0.3s ease;
+    z-index: 0;
 }
 
 .moveUnderline {
@@ -89,4 +92,5 @@
     top: 32px;
     height: 25px;
     width: var(--h4Width);
+    z-index: 0;
   }
