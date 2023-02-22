@@ -19,13 +19,19 @@ function Header() {
   const [showBreadCrumb, setShowBreadCrumb] = useState(false);
   const [showArrow, setShowArrow] = useState(false);
   const [moveUnderline, setMoveUnderline] = useState(false);
+  const [breadCrumbData, setBreadCrumbData] = useState('');
 
   const location = useLocation()
   const numberCart = useSelector(state => state.numberCart);
 
   useEffect(() => {
-    console.log(location.pathname);
-  }, [])
+    if (location.pathname.startsWith('/product')) {
+      setBreadCrumbData(productName)
+    }
+    else if (location.pathname.startsWith('/cart')) {
+      setBreadCrumbData("Carrito de la compra")
+    }
+  }, [location.pathname])
 
 
   useEffect(() => {
@@ -42,9 +48,26 @@ function Header() {
       setTimeout(() => {
         setMoveUnderline(true)
       }, 2000);
-        const h4Width = h4BreadCrumb.current.offsetWidth;
-        console.log(h4BreadCrumb.current.offsetWidth);
-        document.documentElement.style.setProperty('--h4Width', `${h4Width}px`);      
+      const h4Width = h4BreadCrumb.current.offsetWidth;
+      console.log(h4BreadCrumb.current.offsetWidth);
+      document.documentElement.style.setProperty('--h4Width', `${h4Width}px`);
+    }
+    else if (location.pathname.startsWith('/cart')) {
+
+      setH4Width();
+
+      setTimeout(() => {
+        setShowArrow(true)
+      }, 500)
+      setTimeout(() => {
+        setShowBreadCrumb(true);
+      }, 1000);
+      setTimeout(() => {
+        setMoveUnderline(true)
+      }, 2000);
+      const h4Width = h4BreadCrumb.current.offsetWidth;
+      console.log(h4BreadCrumb.current.offsetWidth);
+      document.documentElement.style.setProperty('--h4Width', `${h4Width}px`);
     }
     else {
       setShowBreadCrumb(false)
@@ -56,7 +79,14 @@ function Header() {
 
   useEffect(() => {
     if (moveUnderline) {
-      setH4Width();
+      if (location.pathname.startsWith('/product')) {
+        const h4Width = h4BreadCrumb.current.offsetWidth;
+        document.documentElement.style.setProperty('--h4Width', `${h4Width}px`);
+      }
+      else if (location.pathname.startsWith('/cart')){
+        const h4Width = 155;
+        document.documentElement.style.setProperty('--h4Width', `${h4Width}px`)
+      }
     }
   }, [moveUnderline]);
 
@@ -71,9 +101,7 @@ function Header() {
       <Link className="homeLink" to='/'><h4>Home</h4></Link>
       <img className={`${moveUnderline ? " moveUnderline" : "underline"}`} src={line} alt="line" />
       <img className={`arrowImg${showArrow ? " arrowAnimate" : ""}`} src={arrow} alt="arrow" />
-      <h4 ref={h4BreadCrumb} className={`${showBreadCrumb ? "animate" : "breadcrumb-detail"}`}>
-        {productName}
-      </h4>
+      {<h4 ref={h4BreadCrumb} className={`${showBreadCrumb ? "animate" : "breadcrumb-detail"}`}>{breadCrumbData}</h4>}
       <Link to='/cart'><img className="cartImg" src={cartImg} alt="cart" /></Link>
       {numberCart === 0 ?
         <p className="cartCount">Ningún producto añadido a la cesta</p> :
