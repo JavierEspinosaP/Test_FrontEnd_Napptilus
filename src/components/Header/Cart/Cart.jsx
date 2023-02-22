@@ -6,8 +6,6 @@ const Cart = () => {
   const items = useSelector(state => state.Carts);
   const totalCart = useSelector(state => state.numberCart);
 
-  console.log(items);
-
   useEffect(() => {
     // Comprobar si ha pasado más de una hora desde la última vez que se añadió un producto
     const lastAdded = localStorage.getItem("lastAdded");

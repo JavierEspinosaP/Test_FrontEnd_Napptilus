@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import cartImg from '../../assets/carro.png';
-import { countContext } from '../../context/countContext'
+import { breadCrumbContext } from '../../context/breadCrumbContext'
 import { productNameContext } from '../../context/productNameContext'
 import phone from '../../assets/phone.png';
 import arrow from '../../assets/arrow.png';
@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux';
 
 function Header() {
 
-  const { countProducts, setCountProducts } = useContext(countContext);
   const { productName, setProductName } = useContext(productNameContext);
 
 
@@ -22,23 +21,26 @@ function Header() {
   const [breadCrumbData, setBreadCrumbData] = useState('');
 
   const location = useLocation()
+
   const numberCart = useSelector(state => state.numberCart);
 
   useEffect(() => {
+    console.log(location.pathname);
+
     if (location.pathname.startsWith('/product')) {
       setBreadCrumbData(productName)
     }
-    else if (location.pathname.startsWith('/cart')) {
+    else if (location.pathname.startsWith('/cart')){
       setBreadCrumbData("Carrito de la compra")
     }
-  }, [location.pathname])
+    
+  }, [productName])
+  
 
 
   useEffect(() => {
     if (location.pathname.startsWith('/product')) {
-
       setH4Width();
-
       setTimeout(() => {
         setShowArrow(true)
       }, 500)
@@ -49,8 +51,8 @@ function Header() {
         setMoveUnderline(true)
       }, 2000);
       const h4Width = h4BreadCrumb.current.offsetWidth;
-      console.log(h4BreadCrumb.current.offsetWidth);
       document.documentElement.style.setProperty('--h4Width', `${h4Width}px`);
+      setBreadCrumbData(productName)
     }
     else if (location.pathname.startsWith('/cart')) {
 
@@ -65,9 +67,9 @@ function Header() {
       setTimeout(() => {
         setMoveUnderline(true)
       }, 2000);
-      const h4Width = h4BreadCrumb.current.offsetWidth;
-      console.log(h4BreadCrumb.current.offsetWidth);
+      const h4Width = 155;
       document.documentElement.style.setProperty('--h4Width', `${h4Width}px`);
+      setBreadCrumbData("Carrito de la compra")
     }
     else {
       setShowBreadCrumb(false)
@@ -75,8 +77,10 @@ function Header() {
       setMoveUnderline(false)
     }
 
-  }, [location.pathname]);
+  }, [location.pathname, breadCrumbData, moveUnderline]);
 
+
+  //Cuando se mueve la línea esto setea el ancho
   useEffect(() => {
     if (moveUnderline) {
       if (location.pathname.startsWith('/product')) {

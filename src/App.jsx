@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Header from './components/Header/Header'
 import Main from './components/Main/Main'
 import { productsContext } from './context/productsContext'
-import { countContext } from './context/countContext'
+import { breadCrumbContext } from './context/breadCrumbContext'
 import { productNameContext } from './context/productNameContext'
 import './styles/styles.scss';
 import axios from 'axios'
@@ -68,14 +68,14 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <countContext.Provider value={countObj}>
+        <breadCrumbContext.Provider value={countObj}>
           <productsContext.Provider value={productsObj}>
             <productNameContext.Provider value={productNameObj}>
               <Header />
               <Main />
             </productNameContext.Provider>
           </productsContext.Provider>
-        </countContext.Provider>
+        </breadCrumbContext.Provider>
 
       </BrowserRouter>
     </div>

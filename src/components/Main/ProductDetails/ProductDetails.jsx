@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Link } from "react-router-dom";
-import { countContext } from '../../../context/countContext'
+import { breadCrumbContext } from '../../../context/breadCrumbContext'
 import { productNameContext } from '../../../context/productNameContext'
 import { useDispatch } from 'react-redux';
 
@@ -13,20 +13,23 @@ function ProductDetails() {
   const [detailsData, setDetailsData] = useState([]);
   const [selectedStorage, setSelectedStorage] = useState(1);
   const [selectedColor, setSelectedColor] = useState(1);
-  const { countProducts, setCountProducts } = useContext(countContext);
+  const { breadCrumbContextData, setBreadCrumbContextData } = useContext(breadCrumbContext);
   const { productName, setProductName } = useContext(productNameContext);
   const dispatch = useDispatch();
 
 
   useEffect(() => {
+    let data
     async function fetchData() {
       const resDetails = await axios.get(`https://itx-frontend-test.onrender.com/api/product/${id}`)
-      const data = await resDetails.data
+      data = await resDetails.data
+      setProductName("Detalles de " + data.brand + ' ' + data.model)      
       setDetailsData(data)
-      setProductName("Detalles de " + data.brand + ' ' + data.model)
-      console.log(data);
+      // setBreadCrumbContextData("Detalles de " + data.brand + ' ' + data.model)
     }
     fetchData()
+    
+
 
     // Comprobar si ha pasado más de una hora desde la última vez que se añadió un producto
     const lastAdded = localStorage.getItem("lastAdded");
@@ -38,8 +41,6 @@ function ProductDetails() {
         dispatch({ type: "REMOVE_ALL_PRODUCTS" });
       }
     }
-
-
   }, [])
 
   const handleAddToCart = async () => {
@@ -85,7 +86,6 @@ function ProductDetails() {
     }
     localStorage.setItem('serverCart', JSON.stringify(parsedCart));
     const itemCount = Object.values(parsedCart).reduce((total, item) => total + item.quantity, 0);
-    setCountProducts(itemCount);
 
     const cartItem = {
       id: detailsData.id,
@@ -118,15 +118,6 @@ function ProductDetails() {
     } catch (error) {
       console.log(error);
     }
-
-
-
-
-    // Reset cart after 1 hour
-    setTimeout(() => {
-      localStorage.removeItem('serverCart');
-      setCountProducts(0);
-    }, 60 * 60 * 1000);
   };
 
 
