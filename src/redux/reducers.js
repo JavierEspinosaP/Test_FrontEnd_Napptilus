@@ -1,6 +1,6 @@
 const initProduct = {
   numberCart: 0,
-  carts: [],
+  Carts: [],
   _products: [],
 };
 
@@ -15,11 +15,11 @@ function shopping(state = initProduct, action) {
       return {
         ...state,
         numberCart: 0,
-        carts: [],
+        Carts: [],
       };
     case "ADD_CART":
       const { payload } = action;
-      const existingItem = state.carts.find((item) => {
+      const existingItem = state.Carts.find((item) => {
         return (
           item.id === payload.id &&
           item.colorCode === payload.colorCode &&
@@ -29,22 +29,22 @@ function shopping(state = initProduct, action) {
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        state.carts.push({ ...payload, quantity: 1 });
+        state.Carts.push({ ...payload, quantity: 1 });
       }
       return {
         ...state,
         numberCart: state.numberCart + 1,
       };
     case "INCREASE_QUANTITY":
-      state.carts[action.payload].quantity += 1;
+      state.Carts[action.payload].quantity += 1;
       return {
         ...state,
         numberCart: state.numberCart + 1,
       };
     case "DECREASE_QUANTITY":
-      const qty = state.carts[action.payload].quantity;
+      const qty = state.Carts[action.payload].quantity;
       if (qty > 1) {
-        state.carts[action.payload].quantity -= 1;
+        state.Carts[action.payload].quantity -= 1;
         return {
           ...state,
           numberCart: state.numberCart - 1,
@@ -53,24 +53,22 @@ function shopping(state = initProduct, action) {
         return {
           ...state,
           numberCart: state.numberCart - qty,
-          carts: state.carts.filter(
+          carts: state.Carts.filter(
             (item) =>
-              item.id !== state.carts[action.payload].id ||
-              item.colorCode !== state.carts[action.payload].colorCode ||
-              item.storageCode !== state.carts[action.payload].storageCode
+              item.id !== state.Carts[action.payload].id ||
+              item.colorCode !== state.Carts[action.payload].colorCode ||
+              item.storageCode !== state.Carts[action.payload].storageCode
           ),
         };
       }
     case "DELETE_CART":
-      const quantity_ = state.carts[action.payload].quantity;
+      const quantity_ = state.Carts[action.payload].quantity;
       return {
         ...state,
         numberCart: state.numberCart - quantity_,
-        carts: state.carts.filter(
+        Carts: state.Carts.filter(
           (item) =>
-            item.id !== state.carts[action.payload].id ||
-            item.colorCode !== state.carts[action.payload].colorCode ||
-            item.storageCode !== state.carts[action.payload].storageCode
+            item.id !== state.Carts[action.payload].id
         ),
       };
     default:

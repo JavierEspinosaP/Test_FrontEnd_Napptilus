@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Link } from "react-router-dom";
 import { countContext } from '../../../context/countContext'
 import { productNameContext } from '../../../context/productNameContext'
+import { useDispatch } from 'react-redux';
 
 function ProductDetails() {
 
@@ -14,6 +15,8 @@ function ProductDetails() {
   const [selectedColor, setSelectedColor] = useState(1);
   const { countProducts, setCountProducts } = useContext(countContext);
   const { productName, setProductName } = useContext(productNameContext);
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     async function fetchData() {
@@ -21,10 +24,11 @@ function ProductDetails() {
       const data = await resDetails.data
       setDetailsData(data)
       setProductName("Detalles de " + data.brand + ' ' + data.model)
+      console.log(data);
     }
     fetchData()
 
-    
+
 
 
   }, [])
@@ -32,19 +36,19 @@ function ProductDetails() {
   const handleAddToCart = async () => {
 
     let colorIndex = detailsData.colors.indexOf(selectedColor)
-    let storageIndex = detailsData.internalMemory.indexOf(selectedStorage) 
+    let storageIndex = detailsData.internalMemory.indexOf(selectedStorage)
 
     if (detailsData.colors.indexOf(selectedColor) == -1) {
       colorIndex = 1
     }
-    else{
+    else {
       colorIndex = detailsData.colors.indexOf(selectedColor) + 1
     }
 
     if (detailsData.internalMemory.indexOf(selectedStorage) == -1) {
       storageIndex = 1
     }
-    else{
+    else {
       storageIndex = detailsData.internalMemory.indexOf(selectedStorage) + 1
     }
 
@@ -68,10 +72,21 @@ function ProductDetails() {
         ...payload,
         quantity: 1
       };
+
     }
     localStorage.setItem('cart', JSON.stringify(parsedCart));
     const itemCount = Object.values(parsedCart).reduce((total, item) => total + item.quantity, 0);
     setCountProducts(itemCount);
+
+    const cartItem = {
+      id: detailsData.id,
+      brand: detailsData.brand,
+      model: detailsData.model,
+      imgUrl: detailsData.imgUrl,
+      quantity: 1,
+      price: detailsData.price
+    };
+    dispatch({ type: "ADD_CART", payload: cartItem });
 
     try {
       const res = await axios.post('https://itx-frontend-test.onrender.com/api/cart', payload);
