@@ -51,11 +51,11 @@ const Cart = () => {
       <thead>
         <tr>
           <th></th>
-          <th>Name</th>
-          <th>Image</th>
-          <th>Price</th>
-          <th>Quantity</th>
-          <th>Total Price</th>
+          <th>Marca y modelo</th>
+          <th>Imagen</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+          <th>Precio total</th>
         </tr>
       </thead>
       <tbody>
@@ -69,15 +69,14 @@ const Cart = () => {
                 X
               </button>
             </td>
-            <td>{item.brand} {item.model}</td>
+            <td><b>{item.brand} {item.model}</b></td>
             <td>
               <img
                 src={item.imgUrl}
                 alt={item.title}
-                style={{ width: '100px', height: '80px' }}
               />
             </td>
-            <td>{item.price} €</td>
+            <td><b>{item.price} €</b></td>
             <td>
               <button
                 style={{ margin: '2px', cursor: "pointer" }}

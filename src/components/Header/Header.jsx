@@ -25,7 +25,6 @@ function Header() {
   const numberCart = useSelector(state => state.numberCart);
 
   useEffect(() => {
-    console.log(location.pathname);
 
     if (location.pathname.startsWith('/product')) {
       setBreadCrumbData(productName)

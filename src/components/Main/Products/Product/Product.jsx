@@ -11,6 +11,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useInView } from 'react-intersection-observer';
 
+
 function Product(props) {
 
   const { ref, inView } = useInView();
@@ -29,7 +30,7 @@ function Product(props) {
 
   return (
     <div className={`productContainer ${inView ? 'show' : ''}`}>
-      <Card ref={ref} sx={{ maxWidth: 250, minWidth: 250, margin: 1, maxHeight: 400 }}>
+      <Card ref={ref} sx={{ maxWidth: 260, minWidth: 260, margin: 1, maxHeight: 400 }}>
         <CardMedia
           component="img"
           style={{ minWidth: "130px", maxWidth: "130px" }}
@@ -37,16 +38,16 @@ function Product(props) {
         />
         <CardContent>
           <Typography variant="body2" color="text.secondary">
-            · Marca: {product.brand}
+           <b>· Marca: </b>  {product.brand}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            · Modelo:{product.model}
+           <b>· Modelo: </b> {product.model}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            · Precio:{product.price} €
+           <b>· Precio: </b> {product.price} €
           </Typography>
         </CardContent>
-        <Button><Link className="detailsLink" to={`/product/${product.id}`}>Ver detalles</Link></Button>
+        <Button><Link className="detailsLink" to={`/product/${product.id}`}>  Ver detalles</Link></Button>
       </Card>
     </div>
   )
