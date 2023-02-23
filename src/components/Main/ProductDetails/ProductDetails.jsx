@@ -2,8 +2,9 @@ import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Link } from "react-router-dom";
-import { countContext } from '../../../context/countContext'
 import { productNameContext } from '../../../context/productNameContext'
+import { useDispatch } from 'react-redux';
+import Button from '@mui/material/Button';
 
 function ProductDetails() {
 
@@ -12,39 +13,54 @@ function ProductDetails() {
   const [detailsData, setDetailsData] = useState([]);
   const [selectedStorage, setSelectedStorage] = useState(1);
   const [selectedColor, setSelectedColor] = useState(1);
-  const { countProducts, setCountProducts } = useContext(countContext);
   const { productName, setProductName } = useContext(productNameContext);
+  const dispatch = useDispatch();
 
+  //useEffect para hacer la petición al endpoint con los datos del producto en concreto
   useEffect(() => {
+
     async function fetchData() {
       const resDetails = await axios.get(`https://itx-frontend-test.onrender.com/api/product/${id}`)
       const data = await resDetails.data
-      setDetailsData(data)
       setProductName("Detalles de " + data.brand + ' ' + data.model)
+      setDetailsData(data)
     }
     fetchData()
-
-    
-
-
+ 
+    // Comprobar si ha pasado más de una hora desde la última vez que se añadió un producto
+    const lastAdded = localStorage.getItem("lastAdded");
+    if (lastAdded) {
+      const now = new Date().getTime();
+      const elapsed = now - parseInt(lastAdded, 10);
+      //Si ha pasado más de una hora, se borran los productos de la cesta
+      if (elapsed > 1000 * 60 * 60) {
+        localStorage.removeItem("state");
+        dispatch({ type: "REMOVE_ALL_PRODUCTS" });
+      }
+    }
   }, [])
+
+  //Función para manejar la adición al carrito
 
   const handleAddToCart = async () => {
 
+    //Variables para guardar los índices de las elecciones de color y almacenamiento
     let colorIndex = detailsData.colors.indexOf(selectedColor)
-    let storageIndex = detailsData.internalMemory.indexOf(selectedStorage) 
+    let storageIndex = detailsData.internalMemory.indexOf(selectedStorage)
+
+    //Condicionales para ajustar los números de los índices acorde a como los requiere el endpoint de adición al carrito
 
     if (detailsData.colors.indexOf(selectedColor) == -1) {
       colorIndex = 1
     }
-    else{
+    else {
       colorIndex = detailsData.colors.indexOf(selectedColor) + 1
     }
 
     if (detailsData.internalMemory.indexOf(selectedStorage) == -1) {
       storageIndex = 1
     }
-    else{
+    else {
       storageIndex = detailsData.internalMemory.indexOf(selectedStorage) + 1
     }
 
@@ -53,9 +69,8 @@ function ProductDetails() {
       "colorCode": colorIndex,
       "storageCode": storageIndex
     };
-    console.log(payload);
 
-    const cartItems = localStorage.getItem('cart');
+    const cartItems = localStorage.getItem('serverCart');
     let parsedCart = {};
     if (cartItems) {
       parsedCart = JSON.parse(cartItems);
@@ -68,25 +83,41 @@ function ProductDetails() {
         ...payload,
         quantity: 1
       };
+
     }
-    localStorage.setItem('cart', JSON.stringify(parsedCart));
+    localStorage.setItem('serverCart', JSON.stringify(parsedCart));
     const itemCount = Object.values(parsedCart).reduce((total, item) => total + item.quantity, 0);
-    setCountProducts(itemCount);
+
+    const cartItem = {
+      id: detailsData.id,
+      brand: detailsData.brand,
+      model: detailsData.model,
+      imgUrl: detailsData.imgUrl,
+      quantity: 1,
+      price: detailsData.price
+    };
+    dispatch({ type: "ADD_CART", payload: cartItem });
+
+    // Guardar la hora actual en el local storage
+    const now = new Date().getTime();
+    localStorage.setItem("lastAdded", now);
+
+    // Resetear el carrito después de una hora
+    setTimeout(() => {
+      localStorage.removeItem("state");
+      dispatch({ type: "REMOVE_ALL_PRODUCTS" });
+    }, 60 * 60 * 1000);
+
+
+
 
     try {
       const res = await axios.post('https://itx-frontend-test.onrender.com/api/cart', payload);
       const data = await res.data;
-      console.log(data);
 
     } catch (error) {
       console.log(error);
     }
-
-    // Reset cart after 1 hour
-    setTimeout(() => {
-      localStorage.removeItem('cart');
-      setCountProducts(0);
-    }, 60 * 60 * 1000);
   };
 
 
@@ -98,7 +129,9 @@ function ProductDetails() {
     <div className="detailsView">
 
       <div className="pdp">
+
         <div className="pdp__image">
+
           <img src={detailsData.imgUrl} alt={detailsData.brand} />
         </div>
         <div className="container">
@@ -180,7 +213,7 @@ function ProductDetails() {
           </div> </div>
       </div>
 
-      <Link to="/">Volver a la lista de productos</Link>
+      <Button><Link className='backButton' to="/">Volver a la lista de productos</Link></Button>
     </div>
 
   )
