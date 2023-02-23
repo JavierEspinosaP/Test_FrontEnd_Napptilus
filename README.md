@@ -52,6 +52,16 @@ La segunda clave la utilizo para persistir los datos aunque el usuario cierre el
 
 Además como extra, he añadido esta vista para mostrar los productos añadidos a la cesta, en ella se puede aumentar o disminuir los productos seleccionados o borrarlos, todo a través de reducers.
 
+## How to run
+
+Para arrancar el proyecto en local simplemente es necesario seguir los siguientes pasos:
+
+ #### 1.- Clonar el proyecto ejecutando "git clone https://github.com/JavierEspinosaP/Test_FrontEnd_Napptilus.git" en consola.
+ #### 2.- Ejecutar "npm install" para instalar las dependencias necesarias
+ #### 3.- Ejecutar "npm start" para arrancar el proyecto.
+ 
+ Con ello se abrirá una pestaña en el navegador por defecto con la página en local.
+
 ## Contacto
 
 - [Linkedin](https://www.linkedin.com/in/javier-espinosa-fs/)
