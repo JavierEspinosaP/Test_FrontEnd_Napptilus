@@ -27,10 +27,22 @@
 
 .cartCount {
     position: absolute;
+    top: 10px;
     right: 120px;
     font-size: 15px;
     font-weight: bold;
-    pointer-events: none
+    pointer-events: none;
+    .hideOnSmallScreen {
+        display: block;
+    
+        @media (max-width: 900px) {
+          display: none;
+        }
+      }
+}
+
+.showNumber{
+    display: block
 }
 
 .homeLink {
@@ -96,4 +108,18 @@
     height: 25px;
     width: var(--h4Width);
     z-index: 0;
+  }
+
+  .numberCart{
+    position: absolute;
+    top: 8px;
+    right: 322px;
+    font-weight: bold;
+  }
+
+  @media screen and (max-width: 768px) {
+    .moveUnderline, .arrowAnimate, .animate, .homeLink, .cartCount, .underline{
+        display: none;
+    }
+
   }

@@ -14,7 +14,7 @@ function ProductDetails() {
   const [detailsData, setDetailsData] = useState([]);
   const [selectedStorage, setSelectedStorage] = useState(1);
   const [selectedColor, setSelectedColor] = useState(1);
-  const { productName, setProductName } = useContext(productNameContext);
+  const {setProductName } = useContext(productNameContext);
   const dispatch = useDispatch();
 
   //useEffect para hacer la petición al endpoint con los datos del producto en concreto
@@ -39,6 +39,7 @@ function ProductDetails() {
         dispatch({ type: "REMOVE_ALL_PRODUCTS" });
       }
     }
+    // eslint-disable-next-line
   }, [])
 
   //Función para manejar la adición al carrito
@@ -51,14 +52,14 @@ function ProductDetails() {
 
     //Condicionales para ajustar los números de los índices acorde a como los requiere el endpoint de adición al carrito
 
-    if (detailsData.colors.indexOf(selectedColor) == -1) {
+    if (detailsData.colors.indexOf(selectedColor) === -1) {
       colorIndex = 1
     }
     else {
       colorIndex = detailsData.colors.indexOf(selectedColor) + 1
     }
 
-    if (detailsData.internalMemory.indexOf(selectedStorage) == -1) {
+    if (detailsData.internalMemory.indexOf(selectedStorage) === -1) {
       storageIndex = 1
     }
     else {
@@ -118,6 +119,7 @@ function ProductDetails() {
     //llevar la cuenta de los productos añadidos, pero guardo los productos con los parámetros pedidos en local storage
     try {
       const res = await axios.post('https://itx-frontend-test.onrender.com/api/cart', payload);
+      // eslint-disable-next-line
       const data = await res.data;
       //'data' está preparado para ser recibido en cuanto se solucione el problema con el endpoint
     } catch (error) {

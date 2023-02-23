@@ -1,3 +1,5 @@
+
+//Funciones para gestionar las claves de local storage
 export const loadState = () => {
     try {
       const serializedState = localStorage.getItem('state');

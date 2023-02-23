@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react'
-import { productsContext } from '../../../context/productsContext'
+import React, { useState, useEffect} from 'react'
 import Product from './Product/Product'
 import { TextField } from '@mui/material';
 import { debounce } from 'lodash';
@@ -34,7 +33,6 @@ function Products() {
 
       // Si no hay datos en el almacenamiento local o han pasado más de una hora, hacer la solicitud de los datos
       async function getData() {
-        console.log("Haciendo fetch");
         const res = await axios.get("https://itx-frontend-test.onrender.com/api/product")
         const resData = await res.data
 
@@ -61,7 +59,7 @@ function Products() {
         dispatch({ type: "REMOVE_ALL_PRODUCTS" });
       }
     }
-
+// eslint-disable-next-line
   }, [])
 
   //useEffect para la búsqueda instantánea, después de 0.5s se lanza el filtrado de los productos

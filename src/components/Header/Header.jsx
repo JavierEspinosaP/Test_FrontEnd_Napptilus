@@ -8,9 +8,8 @@ import line from '../../assets/line.png';
 import { useSelector } from 'react-redux';
 
 function Header() {
-
-  const { productName, setProductName } = useContext(productNameContext);
-
+  //Contexto para traer el nombre del producto cuando se accede a la vista detalle
+  const {productName} = useContext(productNameContext);
 
   const h4BreadCrumb = useRef(null);
   const [showBreadCrumb, setShowBreadCrumb] = useState(false);
@@ -22,20 +21,23 @@ function Header() {
 
   const numberCart = useSelector(state => state.numberCart);
 
-  useEffect(() => {
+  
 
+  //useEffect para cambiar el dato del breadcrumbs según en qué vista se esté
+  useEffect(() => {
     if (location.pathname.startsWith('/product')) {
       setBreadCrumbData(productName)
     }
     else if (location.pathname.startsWith('/cart')){
       setBreadCrumbData("Carrito de la compra")
     }
-    
+    // eslint-disable-next-line
   }, [productName])
   
 
-
+  //Lógica para retardar la aparición del breadcrumbs y hacerlo más fluido, también gestiona el texto que se mostrará en el breadcrumbs
   useEffect(() => {
+    
     if (location.pathname.startsWith('/product')) {
       setH4Width();
       setTimeout(() => {
@@ -47,12 +49,9 @@ function Header() {
       setTimeout(() => {
         setMoveUnderline(true)
       }, 2000);
-      const h4Width = h4BreadCrumb.current.offsetWidth;
-      document.documentElement.style.setProperty('--h4Width', `${h4Width}px`);
       setBreadCrumbData(productName)
     }
     else if (location.pathname.startsWith('/cart')) {
-
       setH4Width();
       setTimeout(() => {
         setShowArrow(true)
@@ -63,8 +62,7 @@ function Header() {
       setTimeout(() => {
         setMoveUnderline(true)
       }, 2000);
-      const h4Width = 155;
-      document.documentElement.style.setProperty('--h4Width', `${h4Width}px`);
+      // eslint-disable-next-line
       setBreadCrumbData("Carrito de la compra")
     }
     else {
@@ -72,11 +70,12 @@ function Header() {
       setShowArrow(false)
       setMoveUnderline(false)
     }
-
+// eslint-disable-next-line
   }, [location.pathname, breadCrumbData, moveUnderline]);
 
 
-  //Cuando se mueve la línea esto setea el ancho
+
+  //Setear el ancho del subrayado dependiendo de la vista en la que se encuentre
   useEffect(() => {
     if (moveUnderline) {
       if (location.pathname.startsWith('/product')) {
@@ -88,6 +87,7 @@ function Header() {
         document.documentElement.style.setProperty('--h4Width', `${h4Width}px`)
       }
     }
+    // eslint-disable-next-line
   }, [moveUnderline]);
 
   function setH4Width() {

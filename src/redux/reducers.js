@@ -1,11 +1,13 @@
 import { loadState, saveState } from './localStorage';
 
+//Estado inicial del carrito
 const initialState = loadState() || {
   numberCart: 0,
   Carts: [],
   _products: [],
 };
 
+//Funcion con los reducers para gestionar la adición al carrito y a las claves de local storage
 function shopping(state = initialState, action) {
   switch (action.type) {
     case "GET_ALL_PRODUCTS":
