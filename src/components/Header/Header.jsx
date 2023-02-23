@@ -1,11 +1,9 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation} from "react-router-dom";
 import cartImg from '../../assets/carro.png';
-import { breadCrumbContext } from '../../context/breadCrumbContext'
 import { productNameContext } from '../../context/productNameContext'
 import phone from '../../assets/phone.png';
 import arrow from '../../assets/arrow.png';
-import { useLocation } from "react-router-dom";
 import line from '../../assets/line.png';
 import { useSelector } from 'react-redux';
 
@@ -56,7 +54,6 @@ function Header() {
     else if (location.pathname.startsWith('/cart')) {
 
       setH4Width();
-
       setTimeout(() => {
         setShowArrow(true)
       }, 500)

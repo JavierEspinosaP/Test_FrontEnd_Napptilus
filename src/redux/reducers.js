@@ -72,7 +72,6 @@ function shopping(state = initialState, action) {
                 return item;
               }
             });
-        
             const newStateDecrease = {
               ...state,
               numberCart: state.numberCart - 1,

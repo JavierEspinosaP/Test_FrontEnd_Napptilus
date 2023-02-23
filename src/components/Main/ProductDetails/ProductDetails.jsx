@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 
 function ProductDetails() {
 
+  //Obtener parámetro 'id' de la URL dinámica
   let { id } = useParams();
 
   const [detailsData, setDetailsData] = useState([]);
@@ -64,12 +65,16 @@ function ProductDetails() {
       storageIndex = detailsData.internalMemory.indexOf(selectedStorage) + 1
     }
 
+    //Objeto con los parámetros que pide el endpoint del carrito
     const payload = {
       "id": detailsData.id,
       "colorCode": colorIndex,
       "storageCode": storageIndex
     };
 
+
+    // Obtener el valor almacenado en el objeto localStorage con la clave 'serverCart', si no es nulo, se convierte a JSON
+    //Se comparan los id's, si coincide con alguno, se aumenta su cantidad en 1, si no, se añade con el valor quantity en 1
     const cartItems = localStorage.getItem('serverCart');
     let parsedCart = {};
     if (cartItems) {
@@ -85,9 +90,10 @@ function ProductDetails() {
       };
 
     }
+    //Actualizar el estado de la clave 'serverCart'
     localStorage.setItem('serverCart', JSON.stringify(parsedCart));
-    const itemCount = Object.values(parsedCart).reduce((total, item) => total + item.quantity, 0);
 
+    //Objeto para añadir al carrito de compra desarrollado con Redux
     const cartItem = {
       id: detailsData.id,
       brand: detailsData.brand,
@@ -108,20 +114,16 @@ function ProductDetails() {
       dispatch({ type: "REMOVE_ALL_PRODUCTS" });
     }, 60 * 60 * 1000);
 
-
-
-
+    //Petición al endpoint tal y como se pide en la prueba, la respuesta siempre es 1 por tanto no lo utilizo para
+    //llevar la cuenta de los productos añadidos, pero guardo los productos con los parámetros pedidos en local storage
     try {
       const res = await axios.post('https://itx-frontend-test.onrender.com/api/cart', payload);
       const data = await res.data;
-
+      //'data' está preparado para ser recibido en cuanto se solucione el problema con el endpoint
     } catch (error) {
       console.log(error);
     }
   };
-
-
-
 
 
   return (
