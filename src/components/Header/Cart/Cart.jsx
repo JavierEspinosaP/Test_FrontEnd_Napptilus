@@ -4,19 +4,20 @@ import { useSelector, useDispatch } from 'react-redux';
 const Cart = () => {
   const dispatch = useDispatch();
   const items = useSelector(state => state.Carts);
-  const totalCart = useSelector(state => state.numberCart);
 
   useEffect(() => {
     // Comprobar si ha pasado más de una hora desde la última vez que se añadió un producto
     const lastAdded = localStorage.getItem("lastAdded");
     if (lastAdded) {
       const now = new Date().getTime();
+
       const elapsed = now - parseInt(lastAdded, 10);
       if (elapsed > 1000 * 60 * 60) {
         localStorage.removeItem("state");
         dispatch({ type: "REMOVE_ALL_PRODUCTS" });
       }
     }
+   // eslint-disable-next-line   
   }, [])
 
 
@@ -33,6 +34,7 @@ const Cart = () => {
   };
 
   const handleIncreaseQuantity = (index) => {
+
     dispatch({
       type: "INCREASE_QUANTITY",
       payload: index

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
@@ -19,6 +17,8 @@ function Product(props) {
   const product = props.product;
   const [opacity, setOpacity] = useState(0);
 
+  //useEffect para crear el efecto de aparición cuando el usuario hace scroll, si la tarjeta está en pantalla "inView" es true y crea 
+  //la transición de opacity 0 a 1
   useEffect(() => {
     if (inView) {
       setOpacity(1);

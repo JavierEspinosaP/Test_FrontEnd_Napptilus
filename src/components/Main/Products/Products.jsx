@@ -4,14 +4,12 @@ import Product from './Product/Product'
 import { TextField } from '@mui/material';
 import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { productNameContext } from '../../../context/productNameContext';
 import axios from 'axios'
 
 
 
 function Products() {
   const _products = useSelector(state => state._products);
-  const { productName, setProductName } = useContext(productNameContext);
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const data = searchText.length > 0 ? filteredData : _products;
@@ -39,12 +37,12 @@ function Products() {
         console.log("Haciendo fetch");
         const res = await axios.get("https://itx-frontend-test.onrender.com/api/product")
         const resData = await res.data
-  
+
         dispatch({
           type: "GET_ALL_PRODUCTS",
           payload: resData
         })
-  
+
         // Guardar los datos en el almacenamiento local
         localStorage.setItem('products', JSON.stringify(resData))
         // Guardar la hora actual en el almacenamiento local
@@ -66,6 +64,7 @@ function Products() {
 
   }, [])
 
+  //useEffect para la búsqueda instantánea, después de 0.5s se lanza el filtrado de los productos
   useEffect(() => {
     const searchHandler = debounce(() => {
       const result = _products.filter(
@@ -81,6 +80,7 @@ function Products() {
 
   }, [searchText, _products]);
 
+  //useEffect para efecto de aparición de las tarjetas de los móviles cuando recarga la página
   useEffect(() => {
     setOpacity(1);
   }, []);
@@ -94,7 +94,6 @@ function Products() {
           onChange={(e) => setSearchText(e.target.value)}
         />
       </section>
-
       <section className="cardsContainer" style={{ transition: "opacity 2s ease", opacity: opacity }}>
         {data.map((p, i) => (
 

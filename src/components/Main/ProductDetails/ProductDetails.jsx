@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Link } from "react-router-dom";
-import { breadCrumbContext } from '../../../context/breadCrumbContext'
 import { productNameContext } from '../../../context/productNameContext'
 import { useDispatch } from 'react-redux';
 import Button from '@mui/material/Button';
@@ -14,29 +13,26 @@ function ProductDetails() {
   const [detailsData, setDetailsData] = useState([]);
   const [selectedStorage, setSelectedStorage] = useState(1);
   const [selectedColor, setSelectedColor] = useState(1);
-  const { breadCrumbContextData, setBreadCrumbContextData } = useContext(breadCrumbContext);
   const { productName, setProductName } = useContext(productNameContext);
   const dispatch = useDispatch();
 
-
+  //useEffect para hacer la petición al endpoint con los datos del producto en concreto
   useEffect(() => {
-    let data
+
     async function fetchData() {
       const resDetails = await axios.get(`https://itx-frontend-test.onrender.com/api/product/${id}`)
-      data = await resDetails.data
+      const data = await resDetails.data
       setProductName("Detalles de " + data.brand + ' ' + data.model)
       setDetailsData(data)
-      // setBreadCrumbContextData("Detalles de " + data.brand + ' ' + data.model)
     }
     fetchData()
-
-
-
+ 
     // Comprobar si ha pasado más de una hora desde la última vez que se añadió un producto
     const lastAdded = localStorage.getItem("lastAdded");
     if (lastAdded) {
       const now = new Date().getTime();
       const elapsed = now - parseInt(lastAdded, 10);
+      //Si ha pasado más de una hora, se borran los productos de la cesta
       if (elapsed > 1000 * 60 * 60) {
         localStorage.removeItem("state");
         dispatch({ type: "REMOVE_ALL_PRODUCTS" });
@@ -44,10 +40,15 @@ function ProductDetails() {
     }
   }, [])
 
+  //Función para manejar la adición al carrito
+
   const handleAddToCart = async () => {
 
+    //Variables para guardar los índices de las elecciones de color y almacenamiento
     let colorIndex = detailsData.colors.indexOf(selectedColor)
     let storageIndex = detailsData.internalMemory.indexOf(selectedStorage)
+
+    //Condicionales para ajustar los números de los índices acorde a como los requiere el endpoint de adición al carrito
 
     if (detailsData.colors.indexOf(selectedColor) == -1) {
       colorIndex = 1
@@ -126,9 +127,9 @@ function ProductDetails() {
   return (
 
     <div className="detailsView">
-     
+
       <div className="pdp">
-  
+
         <div className="pdp__image">
 
           <img src={detailsData.imgUrl} alt={detailsData.brand} />
@@ -212,7 +213,7 @@ function ProductDetails() {
           </div> </div>
       </div>
 
-          <Button><Link className='backButton' to="/">Volver a la lista de productos</Link></Button> 
+      <Button><Link className='backButton' to="/">Volver a la lista de productos</Link></Button>
     </div>
 
   )

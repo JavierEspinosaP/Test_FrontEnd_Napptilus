@@ -39,38 +39,60 @@ function shopping(state = initialState, action) {
       };
       saveState(newStateAdd);
       return newStateAdd;
-    case "INCREASE_QUANTITY":
-      state.Carts[action.payload].quantity += 1;
-      const newStateIncrease = {
-        ...state,
-        numberCart: state.numberCart + 1,
-      };
-      saveState(newStateIncrease);
-      return newStateIncrease;
-    case "DECREASE_QUANTITY":
-      const qty = state.Carts[action.payload].quantity;
-      if (qty > 1) {
-        state.Carts[action.payload].quantity -= 1;
-        const newStateDecrease = {
+      case "INCREASE_QUANTITY":
+        const newCarts = state.Carts.map((item, index) => {
+          if (index === action.payload) {
+            return {
+              ...item,
+              quantity: item.quantity + 1
+            };
+          } else {
+            return item;
+          }
+        });
+      
+        const newStateIncrease = {
           ...state,
-          numberCart: state.numberCart - 1,
+          numberCart: state.numberCart + 1,
+          Carts: newCarts
         };
-        saveState(newStateDecrease);
-        return newStateDecrease;
-      } else {
-        const newStateDelete = {
-          ...state,
-          numberCart: state.numberCart - qty,
-          Carts: state.Carts.filter(
-            (item) =>
-              item.id !== state.Carts[action.payload].id ||
-              item.colorCode !== state.Carts[action.payload].colorCode ||
-              item.storageCode !== state.Carts[action.payload].storageCode
-          ),
-        };
-        saveState(newStateDelete);
-        return newStateDelete;
-      }
+        saveState(newStateIncrease);
+        return newStateIncrease;
+      
+        case "DECREASE_QUANTITY":
+          const qty = state.Carts[action.payload].quantity;
+          if (qty > 1) {
+            const newCarts = state.Carts.map((item, index) => {
+              if (index === action.payload) {
+                return {
+                  ...item,
+                  quantity: item.quantity - 1
+                };
+              } else {
+                return item;
+              }
+            });
+        
+            const newStateDecrease = {
+              ...state,
+              numberCart: state.numberCart - 1,
+              Carts: newCarts
+            };
+            saveState(newStateDecrease);
+            return newStateDecrease;
+          } else {
+            const newStateDelete = {
+              ...state,
+              numberCart: state.numberCart - qty,
+              Carts: state.Carts.filter(
+                (item) =>
+                  item.id !== state.Carts[action.payload].id
+              ),
+            };
+            saveState(newStateDelete);
+            return newStateDelete;
+          }
+        
     case "DELETE_CART":
       const quantity_ = state.Carts[action.payload].quantity;
       const newStateDeleteCart = {
