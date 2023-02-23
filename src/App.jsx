@@ -31,6 +31,7 @@ function App() {
 
 
     // Obtener los datos del almacenamiento local
+    
     const products = JSON.parse(localStorage.getItem('products'))
     const productsTime = localStorage.getItem('productsTime')
 

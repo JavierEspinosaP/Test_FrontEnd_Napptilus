@@ -7,10 +7,10 @@ const Cart = () => {
 
   useEffect(() => {
     // Comprobar si ha pasado más de una hora desde la última vez que se añadió un producto
+    //Si es así, borra los productos de la cesta
     const lastAdded = localStorage.getItem("lastAdded");
     if (lastAdded) {
       const now = new Date().getTime();
-
       const elapsed = now - parseInt(lastAdded, 10);
       if (elapsed > 1000 * 60 * 60) {
         localStorage.removeItem("state");
@@ -20,12 +20,13 @@ const Cart = () => {
    // eslint-disable-next-line   
   }, [])
 
-
+  //Cálculo del coste total
   let totalCost = 0;
   items.forEach(item => {
     totalCost += item.quantity * item.price;
   });
 
+  //Lógica del carrito con los reducers de Redux
   const handleDeleteItem = (index) => {
     dispatch({
       type: "DELETE_CART",

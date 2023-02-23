@@ -1,3 +1,5 @@
+
+//Funciones para gestionar las claves de local storage
 export const loadState = () => {
     try {
       const serializedState = localStorage.getItem('state');
@@ -15,7 +17,19 @@ export const loadState = () => {
     try {
       const serializedState = JSON.stringify(state);
       localStorage.setItem('state', serializedState);
+      saveServerCart(state.Carts);
     } catch (err) {
       console.log(err);
     }
   };
+  
+
+  export const saveServerCart = (serverCart) => {
+    try {
+      const serializedServerCart = JSON.stringify(serverCart);
+      localStorage.setItem('serverCart', serializedServerCart);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  

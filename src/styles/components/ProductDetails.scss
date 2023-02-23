@@ -3,7 +3,8 @@
 .detailsView {
     height: 100vh;
     background-color: $green;
-    & .MuiButtonBase-root{
+
+    & .MuiButtonBase-root {
         margin: 20px 0 0 30px
     }
 }
@@ -107,7 +108,7 @@
     }
 }
 
-.backButton{
+.backButton {
     text-decoration: none;
     font-weight: bold;
     color: #3296c1;
@@ -124,6 +125,18 @@ select {
 }
 
 
+@media (max-width: 1200px) {
+    .pdp {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .pdp {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
 @media (max-width: 768px) {
     .pdp {
         grid-template-columns: 1fr;
@@ -132,6 +145,10 @@ select {
 
         &__image {
             order: 1;
+            img{
+                width: 200px;
+                margin-top: 40px;
+            }
         }
 
         &__container {
@@ -142,10 +159,44 @@ select {
     .detailsView {
         height: 128vh;
     }
+
+    select {
+        width: 80px;
+    }
+
+    .details {
+        padding-left: 2rem;
+    }
+    
+    .actions{
+        padding-left: 2rem;
+    }
+
+    .attribute-label {
+        padding-left: 1rem;
+    }
+
+    .attribute-value {
+        padding-left: 1rem;
+        border-left: 2px solid black;
+    }
 }
 
 @media (max-width: 500px) {
+
     .detailsView {
         height: 145vh;
+    }
+    .details {
+        padding-left: 1rem;
+    }
+    
+    .actions{
+        padding-left: 1rem;
+    }
+
+
+    select {
+        width: 60px;
     }
 }

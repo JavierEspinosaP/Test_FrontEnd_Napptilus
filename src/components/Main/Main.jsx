@@ -11,7 +11,7 @@ function Main() {
       <Routes>
         <Route element={<Products />} path={"/"} />
         <Route element={<ProductDetails />} path={"/product/:id"} />
-        <Route element={<Cart/>} path={"/cart"}/>
+        <Route element={<Cart />} path={"/cart"}/>
       </Routes>
     </main>
   );
