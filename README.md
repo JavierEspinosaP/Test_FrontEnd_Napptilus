@@ -26,7 +26,7 @@ Los datos de los productos se almacenan en un estado de Redux (_products) así c
 
 Además, he añadido un input de búsqueda con un debounce de 0.5s, pasado dicho intervalo, se dispara una función que filtra los productos por el texto introducido en tiempo real.
 
-En el header podemos ver el logo, que devuelve a la vista principal, un bredcrumbs que nos indica que estamos en Home, y a la derecha un texto que nos indica si hay algún producto añadido a la cesta, junto con su logo, que sirve como link a su vista.
+En el header podemos ver el logo, que devuelve a la vista principal, un breadcrumbs que nos indica que estamos en Home, y a la derecha un texto que nos indica si hay algún producto añadido a la cesta, junto con su logo, que sirve como link a su vista.
 
 Como vemos en la siguiente imagen, si accedemos a la vista detalle de un producto, el breadcrumbs nos indica en qué vista estamos, lo mismo ocurre si accedemos al carrito de compra.
 
