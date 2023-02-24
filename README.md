@@ -4,7 +4,7 @@
   <h3 align="center">Accede al despliegue en el siguiente botón</h3>
 </h1>
   <div align="center">
-  <a  href="https://main--preeminent-bonbon-b82f5d.netlify.app/"><img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify"></a>
+  <a  href="https://main--preeminent-bonbon-b82f5d.netlify.app/"><img src="https://i.postimg.cc/ZnXsTdp7/netlify.png" alt="Deploy to Netlify"></a>
 </p>
 </div>
 
