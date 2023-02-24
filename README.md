@@ -1,7 +1,7 @@
 <h1 display="flex" align="center">
   <p align="center">Mobile Store</p>
   <img width="32px" src="https://i.postimg.cc/cJJ6ZsVP/phone.png" alt="mobile"></a>
-  <h3 align="center">Accede al despliegue en el siguiente botón</h3>
+  <h3 align="center">Accede al despliegue en el siguiente icono</h3>
 </h1>
   <div align="center">
   <a  href="https://main--preeminent-bonbon-b82f5d.netlify.app/"><img src="https://i.postimg.cc/ZnXsTdp7/netlify.png" alt="Deploy to Netlify"></a>
