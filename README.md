@@ -35,7 +35,7 @@ Como vemos en la siguiente imagen, si accedemos a la vista detalle de un product
 
 ### Vista detalle
 
-En esta vista se nos muestran los detalles del producto que hayamos seleccionado, su imagen a la izquierda y a la derecha sus propiedades y unas opciones de compra, almacenamiento y color, junto con un botón para añadir al carrito y, en la esquina inferior derecha uno para volver a la lista de productos.
+En esta vista se nos muestran los detalles del producto que hayamos seleccionado, su imagen a la izquierda y a la derecha sus propiedades y unas opciones de compra, almacenamiento y color, junto con un botón para añadir al carrito y, en la esquina inferior izquierda uno para volver a la lista de productos.
 
 ![Detalle](https://user-images.githubusercontent.com/103537170/220972960-81ca8ef5-0a6e-4f12-b9e0-6d55e7a18269.jpg)
 
