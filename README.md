@@ -1,6 +1,6 @@
 <h1 display="flex" align="center">
   <p align="center">Mobile Store</p>
-  <img width="32px" src="https://i.postimg.cc/cJJ6ZsVP/phone.png" alt="mobile"></a>
+
   <h3 align="center">Accede al despliegue en el siguiente icono</h3>
 </h1>
   <div align="center">
